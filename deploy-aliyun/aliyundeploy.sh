@@ -18,7 +18,7 @@ DEPLOY_CONF_FILE=$1
 
 # Check to make sure DEPLOY_CONF_FILE exists
 if [ ! -f "$DEPLOY_CONF_FILE" ]; then
-    echo "AWS deployment configuration file not found: "$DEPLOY_CONF_FILE
+    echo "aliyun deployment configuration file not found: "$DEPLOY_CONF_FILE
     exit 1
 fi
 
@@ -33,9 +33,9 @@ echo "USE_KEYPAIRS_FILE = "$USE_KEYPAIRS_FILE
 echo "IMAGE_ID = "$IMAGE_ID
 echo "INSTANCE_TYPE = "$INSTANCE_TYPE
 
-# Check for AWS private key file (.pem file)
+# Check for aliyun private key file (.pem file)
 if [ ! -f "pem/bigchaindb.pem" ]; then
-    echo "File pem/bigchaindb.pem (AWS private key) is missing"
+    echo "File pem/bigchaindb.pem (aliyun private key) is missing"
     exit 1
 fi
 
@@ -48,7 +48,7 @@ fi
 
 # Check if NUM_NODES got set
 if [ -z "$NUM_NODES" ]; then
-    echo "NUM_NODES is not set in the AWS deployment configuration file "$DEPLOY_CONF_FILE
+    echo "NUM_NODES is not set in the aliyun deployment configuration file "$DEPLOY_CONF_FILE
     exit 1
 fi
 
@@ -79,7 +79,7 @@ chmod 0400 pem/bigchaindb.pem
 # 5. writes the shellscript add2known_hosts.sh
 # 6. (over)writes a file named hostlist.py
 #    containing a list of all public DNS names.
-python launch_ec2_nodes.py --deploy-conf-file $DEPLOY_CONF_FILE --tag $TAG
+python launch_ecs_nodes.py --deploy-conf-file $DEPLOY_CONF_FILE --tag $TAG
 
 # Make add2known_hosts.sh executable then execute it.
 # This adds remote keys to ~/.ssh/known_hosts
